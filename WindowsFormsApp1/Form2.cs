@@ -12,127 +12,104 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
-        public class Node
-        {
-            public string character;
-            public string law;
-            public int numChanell;
-            public string name;
-            public int[] communication;
-            public Node(string character,string law,string Name)
-            {
-                this.name = Name;
-                this.character = character;
-                this.law = law;
-                communication = new int[_numNodes];
-            }
-            public Node(string character, string law, int numChanell,string Name)
-            {
-                this.name = Name;
-                this.character = character;
-                this.law = law;
-                this.numChanell = numChanell;
-                communication = new int[_numNodes];
-            }
-
-        }
-        bool _character = false;
-        int _numElem;
+       
         public List<Node> nodes;
-        static int _numNodes;
-        static int _numDevice = 0;
-        static int _numGT = 0;
+        int numOfElements = 0;
+        int countOfElements = 0;
+        bool continuation = false;
         public Form2()
         {
             InitializeComponent();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Button button2 = (Button)sender;
+            numOfElements++;
+            countOfElements++;
+            Label label = new Label();
+            label.Text = 'b'+numOfElements.ToString();
+            label.Location = new Point(0, button2.Location.Y);
+            label.Size = new Size(20, 20);
+            this.Controls.Add(label);
+            ComboBox comboBox = new ComboBox();
+            comboBox.Items.AddRange(new object[] { (object)"одноканальное устройство", (object)"многоканальное устройство", (object)"генератор", (object)"приемник" });
+            comboBox.Location = new Point(30, button2.Location.Y);
+            comboBox.Size = new Size(170, 20);
+            comboBox.SelectedIndex = 0;
+            comboBox.SelectedIndexChanged += SelectedIndexChanged;
+            this.Controls.Add(comboBox);
+            Button button = new Button();
+            button.Text = "Удалить узел";
+            button.Location = new Point(200, button2.Location.Y);
+            button.Size = new Size(80,20);
+            button.Click += Button_Click;
+            this.Controls.Add(button);         
+            button2.Location = new Point(button2.Location.X, button2.Location.Y + 30);
+            this.button1.Location = new Point(this.button1.Location.X, this.button1.Location.Y- button2.Location.Y>20? this.button1.Location.Y: this.button1.Location.Y+30);
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            int numOfRemove = this.Controls.IndexOf((Button)sender);
+            countOfElements--;
+            for (int i = 0; i <= 2; i++)
+                this.Controls.Remove(this.Controls[numOfRemove - i]);
+            for (int i = numOfRemove - 2; i < this.Controls.Count; i++)
+            {
+                Control control = this.Controls[i];
+                control.Location = new Point(control.Location.X, control.Location.Y - 30);
+            }
+            this.button1.Location = new Point(this.button1.Location.X,this.button1.Location.Y - button2.Location.Y <30|| this.button1.Location.Y - button2.Location.Y > 150 ? this.button1.Location.Y -30: this.button1.Location.Y);
+            this.button2.Location = new Point(this.button2.Location.X, this.button2.Location.Y - 30);
+        }
+
+        private void SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            Label label=(Label)this.Controls[this.Controls.IndexOf(comboBox)-1];
+            char symb;
+            if (comboBox.SelectedIndex < 2)
+                symb = 'b';
+            else symb = 'S';
+            label.Text = symb +label.Text[1].ToString();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if(!_character)
+            bool generator = false;
+            bool terminate = false;         
+            nodes = new List<Node>();
+            for(int i=0;i<countOfElements;i++)
             {
-                if (maskedTextBox1.TextLength > 0)
-                {
-                    _numNodes = Convert.ToInt32(maskedTextBox1.Text);
-                    nodes = new List<Node>();
-                    _character = true;
-                    _numElem = 1;
-                    maskedTextBox1.Text = null;
-                    label2.Visible = true;
-                    radioButton1.Visible = true;
-                    radioButton2.Visible = true;
-                    radioButton3.Visible = true;
-                    maskedTextBox1.Visible = false;
-                    label1.Text = "Узел "+_numElem;                    
-                }
+                Node node = new Node();
+                Label label = (Label)this.Controls[2 + i * 3];
+                node.name = label.Text;
+                ComboBox box = (ComboBox)this.Controls[3 + i * 3];
+                node.type = box.SelectedIndex;
+                if (node.type == 1)
+                    node.countOfChanell = 2;
+                if (node.type == 2)
+                    generator = true;
+                if (node.type == 3)
+                    terminate = true;
+                node.communication = new double[countOfElements];
+                node.law= "UNIFORM(0,0)";
+                nodes.Add(node);
             }
-            else
+            if (generator && terminate)
             {
-                if (radioButton1.Checked)
-                {
-                    Node node = new Node("Одноканал", "","b"+_numDevice);
-                    _numDevice++;
-                    nodes.Add(node);
-                    label1.Text = "Узел " + ++_numElem;
-                    radioButton1.Checked = false;
-                }
-                if(radioButton2.Checked)
-                {
-                    if (Convert.ToInt32(maskedTextBox1.Text) > 1)
-                    {
-                        Node node = new Node("Многоканал", "", Convert.ToInt32(maskedTextBox1.Text), "b" + _numDevice);
-                        _numDevice++;
-                        nodes.Add(node);
-                        label1.Text = "Узел " + ++_numElem;
-                        radioButton2.Checked = false;
-                        label2.Text = null;
-                        maskedTextBox1.Text = null;
-                        maskedTextBox1.Visible = false;
-                    }
-                   else MessageBox.Show("Количество каналов больше 1","Error", MessageBoxButtons.OK);
-                }
-                if(radioButton3.Checked)
-                {
-                    if (Convert.ToInt32(maskedTextBox1.Text)==1||Convert.ToInt32(maskedTextBox1.Text)==2)
-                    {
-                        Node node;
-                        if (Convert.ToInt32(maskedTextBox1.Text) == 1)
-                            node = new Node("Генератор", "", "S" + _numGT);
-                        else
-                            node = new Node("Приемник", "", "S" + _numGT);
-                        _numGT++;
-                        nodes.Add(node);
-                        label1.Text = "Узел " + ++_numElem;
-                        radioButton3.Checked = false;
-                        label2.Text = null;
-                        maskedTextBox1.Text = null;
-                        maskedTextBox1.Visible = false;
-                    }
-                   else  MessageBox.Show("1 или 2","Error", MessageBoxButtons.OK);
-                }
-                if(_numElem>_numNodes)
-                {
-                    Close();
-                }
+                continuation = true;
+                this.Close();
             }
+            else MessageBox.Show("Должны быть как минимум один приемник и один генератор", "Error", MessageBoxButtons.OK);
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            label2.Text = null;
-            maskedTextBox1.Visible = false;
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            label2.Text = "Количество каналов больше 1";
-            maskedTextBox1.Visible = true;
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            label2.Text = "1-Generator 2-terminal";
-            maskedTextBox1.Visible = true;
+            if (!continuation)
+                Application.Exit();
+            continuation = false;
         }
     }
 }
