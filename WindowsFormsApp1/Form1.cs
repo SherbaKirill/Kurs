@@ -83,9 +83,9 @@ namespace WindowsFormsApp1
             }
             if (continuation)
             {
-                Generator generator = new Generator();
-                generator.nodes = form2.nodes;
-                generator.Main();
+                
+                Form4 form4 = new Form4(form2);
+                form4.ShowDialog();
             }
             continuation = true;
         }

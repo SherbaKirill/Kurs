@@ -13,5 +13,6 @@ namespace WindowsFormsApp1
         public int countOfChanell { get; set; }
         public string name { get; set; }
         public double[] communication { get; set; }
+        public List<string> statistic { get; set; }
     }
 }

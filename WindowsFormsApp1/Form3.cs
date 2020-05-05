@@ -98,16 +98,16 @@ namespace WindowsFormsApp1
                     form2.nodes[item].law = "UNIFORM(" + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
                     break;
                 case 1:
-                    form2.nodes[item].law = "Exponential(" + this.comboBox3.SelectedText + ',' + this.maskedTextBox1.Text + ','+this.maskedTextBox2.Text+')';
+                    form2.nodes[item].law = "Exponential(" + (this.comboBox3.SelectedIndex+1) + ',' + this.maskedTextBox1.Text + ','+this.maskedTextBox2.Text+')';
                     break;
                 case 2:
-                    form2.nodes[item].law = "NORMAL(" + this.comboBox3.SelectedText + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                    form2.nodes[item].law = "NORMAL(" + (this.comboBox3.SelectedIndex + 1) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
                     break;
                 case 3:
-                    form2.nodes[item].law = "DUNIFORM(" + this.comboBox3.SelectedText + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                    form2.nodes[item].law = "DUNIFORM(" + (this.comboBox3.SelectedIndex + 1) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
                     break;
                 case 4:
-                    form2.nodes[item].law = "TRIANGULAR(" + this.comboBox3.SelectedText + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text +','+this.maskedTextBox3.Text +')';
+                    form2.nodes[item].law = "TRIANGULAR(" + (this.comboBox3.SelectedIndex + 1) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text +','+this.maskedTextBox3.Text +')';
                     break;
             }
         }

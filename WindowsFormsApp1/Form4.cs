@@ -39,10 +39,41 @@ namespace WindowsFormsApp1
                     dataGridView1.Rows[i].Cells[j].Value = '-';
             }
         }
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+
+            TextBox tb = (TextBox)e.Control;
+            tb.KeyPress += new KeyPressEventHandler(tb_KeyPress);
+        }
+        void tb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsLetterOrDigit(e.KeyChar)) && (e.KeyChar != '(')&& (e.KeyChar != ')') && (e.KeyChar != '|'))
+            {
+                if (e.KeyChar != (char)Keys.Back)
+                { e.Handled = true; }
+            }
+        }
 
         private void Form4_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {              
+                for (int j = 0; j < dataGridView1.ColumnCount; j++)
+                {
+                    if (dataGridView1.Rows[i].Cells[j].Value!=null&&dataGridView1.Rows[i].Cells[j].Value.ToString() != "-")
+                    {
+                        string[] item = dataGridView1.Rows[i].Cells[j].Value.ToString().Split('|');
+                        form2.nodes[i].statistic.AddRange(item);
+                    }
+                }
+            }
+            Generator generator = new Generator();
+            generator.nodes = form2.nodes;
+            generator.Main();
         }
     }
 }

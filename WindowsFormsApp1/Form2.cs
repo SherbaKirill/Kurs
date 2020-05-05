@@ -95,6 +95,7 @@ namespace WindowsFormsApp1
                     terminate = true;
                 node.communication = new double[countOfElements];
                 node.law= "UNIFORM(0,0)";
+                node.statistic = new List<string>();
                 nodes.Add(node);
             }
             if (generator && terminate)
