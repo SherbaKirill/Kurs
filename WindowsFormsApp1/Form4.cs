@@ -47,7 +47,7 @@ namespace WindowsFormsApp1
         }
         void tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(Char.IsLetterOrDigit(e.KeyChar)) && (e.KeyChar != '(')&& (e.KeyChar != ')') && (e.KeyChar != '|'))
+            if (!(Char.IsLetterOrDigit(e.KeyChar)) && (e.KeyChar != '(')&& (e.KeyChar != ')') && (e.KeyChar != '|')&&e.KeyChar!=','&&e.KeyChar!='#')
             {
                 if (e.KeyChar != (char)Keys.Back)
                 { e.Handled = true; }
@@ -61,7 +61,8 @@ namespace WindowsFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < dataGridView1.RowCount; i++)
-            {              
+            {
+                form2.nodes[i].statistic = new List<string>();
                 for (int j = 0; j < dataGridView1.ColumnCount; j++)
                 {
                     if (dataGridView1.Rows[i].Cells[j].Value!=null&&dataGridView1.Rows[i].Cells[j].Value.ToString() != "-")
