@@ -14,11 +14,13 @@ namespace WindowsFormsApp1
         bool continuation = true;
         Form2 form2 = new Form2();
         Form3 form3;
+        Form4 form4;
         public Form1( )
         {
             InitializeComponent();
             Form2_Call();
             form3 = new Form3(form2);
+            form4 = new Form4(form2);
             Form3_Call();
         }
         private void Form2_Call()
@@ -83,9 +85,9 @@ namespace WindowsFormsApp1
             }
             if (continuation)
             {
-                
-                Form4 form4 = new Form4(form2);
-                form4.ShowDialog();
+                this.Visible = false;
+                if (form4.ShowDialog() == DialogResult.OK)
+                    this.Visible = true;
             }
             continuation = true;
         }

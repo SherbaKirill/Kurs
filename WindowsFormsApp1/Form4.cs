@@ -18,7 +18,7 @@ namespace WindowsFormsApp1
             this.form2 = form2;
             InitializeComponent();
         }
-
+        bool continuation = false;
         private void Form4_Load(object sender, EventArgs e)
         {
             dataGridView1.AllowUserToAddRows = true;
@@ -56,7 +56,10 @@ namespace WindowsFormsApp1
 
         private void Form4_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            if(!continuation)
+                Application.Exit();
+            this.DialogResult = DialogResult.OK;
+            continuation = false;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -74,7 +77,21 @@ namespace WindowsFormsApp1
             }
             Generator generator = new Generator();
             generator.nodes = form2.nodes;
-            generator.Main();
+            List<string> output=generator.Main();
+            OpenFileDialog OPF = new OpenFileDialog();
+            OPF.Filter = "Файлы txt|*.txt";
+            if (OPF.ShowDialog() == DialogResult.OK)
+            {
+                using (System.IO.StreamWriter sw = new System.IO.StreamWriter(OPF.FileName, append: false))
+                    foreach (string item in output)
+                        sw.WriteLine(item);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            continuation = true;
+            this.Close();
         }
     }
 }

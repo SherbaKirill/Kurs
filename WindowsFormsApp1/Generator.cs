@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace WindowsFormsApp1
 {
@@ -13,7 +9,7 @@ namespace WindowsFormsApp1
         delegate List<string> Type(Node node);
         List<string> _sortList;
         string separator = "***************************";
-        public void Main()
+        public List<string> Main()
         {
             _sortList = new List<string>();
             _sortList.Add(separator);
@@ -26,9 +22,7 @@ namespace WindowsFormsApp1
             }
             _sortList.Add(separator);
             Treatment(noSortList);
-            using (StreamWriter sw = new StreamWriter("output.txt", append: false))
-                foreach (string item in _sortList)
-                    sw.WriteLine(item);
+            return _sortList;
         }
         private void Treatment(List<List<string>> noSort)
         {
