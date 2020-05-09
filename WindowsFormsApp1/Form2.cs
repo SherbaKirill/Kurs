@@ -112,5 +112,11 @@ namespace WindowsFormsApp1
                 Application.Exit();
             continuation = false;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Form6 form6 = new Form6(2);
+            form6.Show();
+        }
     }
 }

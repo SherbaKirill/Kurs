@@ -30,7 +30,6 @@ namespace WindowsFormsApp1
                 }
             comboBox2.SelectedIndex = 0;
             comboBox1.SelectedIndex = 0;
-            comboBox3.SelectedIndex = 0;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,13 +42,13 @@ namespace WindowsFormsApp1
                     label3.Visible = false;
                     maskedTextBox3.Visible = false;
                     label4.Visible = false;
-                    comboBox3.Visible =false;
+                    maskedTextBox5.Visible =false;
                     break;
                 case 1:
                     label1.Text = "сдвиг";
                     label2.Text = "величина";
                     label4.Visible = true;
-                    comboBox3.Visible = true;
+                    maskedTextBox5.Visible = true;
                     label3.Visible = false;
                     maskedTextBox3.Visible = false;
                     break;
@@ -59,13 +58,13 @@ namespace WindowsFormsApp1
                     label3.Visible = false;
                     maskedTextBox3.Visible = false;
                     label4.Visible = true;
-                    comboBox3.Visible = true;
+                    maskedTextBox5.Visible = true;
                     break;
                 case 3:
                     label1.Text = "min";
                     label2.Text = "max";
                     label4.Visible = true;
-                    comboBox3.Visible = true;
+                    maskedTextBox5.Visible = true;
                     label3.Visible = false;
                     maskedTextBox3.Visible = false;
                     break;
@@ -73,7 +72,7 @@ namespace WindowsFormsApp1
                     label1.Text = "min";
                     label2.Text = "max";
                     label4.Visible = true;
-                    comboBox3.Visible = true;
+                    maskedTextBox5.Visible = true;
                     label3.Visible = true;
                     maskedTextBox3.Visible = true;
                     break;
@@ -92,24 +91,36 @@ namespace WindowsFormsApp1
                     MessageBox.Show("Количество каналов больше 2", "Error", MessageBoxButtons.OK);
                 else form2.nodes[item].countOfChanell = result;
             }
-            switch(law)
-            {
-                case 0:
-                    form2.nodes[item].law = "UNIFORM(" + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
-                    break;
-                case 1:
-                    form2.nodes[item].law = "Exponential(" + (this.comboBox3.SelectedIndex+1) + ',' + this.maskedTextBox1.Text + ','+this.maskedTextBox2.Text+')';
-                    break;
-                case 2:
-                    form2.nodes[item].law = "NORMAL(" + (this.comboBox3.SelectedIndex + 1) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
-                    break;
-                case 3:
-                    form2.nodes[item].law = "DUNIFORM(" + (this.comboBox3.SelectedIndex + 1) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
-                    break;
-                case 4:
-                    form2.nodes[item].law = "TRIANGULAR(" + (this.comboBox3.SelectedIndex + 1) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text +','+this.maskedTextBox3.Text +')';
-                    break;
-            }
+            if (this.maskedTextBox1.Text != "" && this.maskedTextBox2.Text != "")
+                switch (law)
+                {
+                    case 0:
+                        if (int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
+                            form2.nodes[item].law = "UNIFORM(" + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                        else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
+                        break;
+                    case 1:
+                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0)
+                            form2.nodes[item].law = "Exponential(" + (this.maskedTextBox5.Text) + ',' + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                        else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
+                        break;
+                    case 2:
+                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0)
+                            form2.nodes[item].law = "NORMAL(" + (this.maskedTextBox5.Text) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                        else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
+                        break;
+                    case 3:
+                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0 && int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
+                            form2.nodes[item].law = "DUNIFORM(" + (this.maskedTextBox5.Text) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                        else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
+                        break;
+                    case 4:
+                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0&& int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
+                            form2.nodes[item].law = "TRIANGULAR(" + (this.maskedTextBox5.Text) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ',' + this.maskedTextBox3.Text + ')';
+                        else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
+                        break;
+                }
+            else MessageBox.Show("Поля не могут быть пустыми", "error", MessageBoxButtons.OK);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -148,6 +159,12 @@ namespace WindowsFormsApp1
                 label5.Visible = false;
                 maskedTextBox4.Visible = false;
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form6 form6 = new Form6(3);
+            form6.Show();
         }
     }
 }

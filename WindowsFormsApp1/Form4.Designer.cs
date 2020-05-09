@@ -39,6 +39,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,7 +114,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(577, 391);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 23);
+            this.button1.Size = new System.Drawing.Size(124, 25);
             this.button1.TabIndex = 7;
             this.button1.Text = "Сгенерировать";
             this.button1.UseVisualStyleBackColor = true;
@@ -120,7 +123,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(505, 261);
+            this.label7.Location = new System.Drawing.Point(505, 342);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(289, 17);
             this.label7.TabIndex = 8;
@@ -129,21 +132,49 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(508, 295);
+            this.label8.Location = new System.Drawing.Point(505, 259);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(149, 17);
+            this.label8.Size = new System.Drawing.Size(176, 17);
             this.label8.TabIndex = 9;
-            this.label8.Text = "#(0,1,2)(имя)-tabulate";
+            this.label8.Text = "#0(имя)-tabulate до входа";
             // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(468, 391);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(75, 25);
             this.button2.TabIndex = 10;
             this.button2.Text = "Назад";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(505, 287);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(199, 17);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "#1(имя)-tabulate после входа";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(505, 314);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(209, 17);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "#2(имя)-tabulate после выхода";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(685, 12);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(86, 25);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "Помощь";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form4
             // 
@@ -152,6 +183,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Menu;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -167,7 +201,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form4";
-            this.Text = "Form4";
+            this.Text = "Матрица статистики";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_FormClosed);
             this.Load += new System.EventHandler(this.Form4_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -189,5 +223,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button3;
     }
 }

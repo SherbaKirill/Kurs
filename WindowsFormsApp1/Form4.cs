@@ -47,7 +47,7 @@ namespace WindowsFormsApp1
         }
         void tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(Char.IsLetterOrDigit(e.KeyChar)) && (e.KeyChar != '(')&& (e.KeyChar != ')') && (e.KeyChar != '|')&&e.KeyChar!=','&&e.KeyChar!='#')
+            if (!(Char.IsLetterOrDigit(e.KeyChar)) && (e.KeyChar != '(')&& (e.KeyChar != ')') && (e.KeyChar != '|')&&e.KeyChar!=','&&e.KeyChar!='#'&& (e.KeyChar != '_'))
             {
                 if (e.KeyChar != (char)Keys.Back)
                 { e.Handled = true; }
@@ -92,6 +92,12 @@ namespace WindowsFormsApp1
         {
             continuation = true;
             this.Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Form6 form6 = new Form6(4);
+            form6.Show();
         }
     }
 }

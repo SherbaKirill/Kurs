@@ -53,7 +53,6 @@ namespace WindowsFormsApp1
             }
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-
                 for (int j = 0; j < dataGridView1.ColumnCount; j++)
                     dataGridView1.Rows[i].Cells[j].Value = form2.nodes[i].communication[j];
             }
@@ -66,15 +65,18 @@ namespace WindowsFormsApp1
             {
                 double sum = 0;
                 for (int j = 0; j < dataGridView1.ColumnCount; j++) {
-                    if(double.TryParse(dataGridView1.Rows[i].Cells[j].Value.ToString(),out double value))
+                    if (dataGridView1.Rows[i].Cells[j].Value!=null)
                     {
-                        sum += value;
-                        form2.nodes[i].communication[j] = value;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Вводить разрешенно положительные числа от 0 до 1 строка "+(i+1)+" столбец "+(j+1), "Error", MessageBoxButtons.OK);
-                        continuation = false;
+                        if (double.TryParse(dataGridView1.Rows[i].Cells[j].Value.ToString(), out double value))
+                        {
+                            sum += value;
+                            form2.nodes[i].communication[j] = value;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Вводить разрешенно положительные числа от 0 до 1 строка " + (i + 1) + " столбец " + (j + 1), "Error", MessageBoxButtons.OK);
+                            continuation = false;
+                        }
                     }
                 }
                 if(sum!=1)
@@ -121,9 +123,8 @@ namespace WindowsFormsApp1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Generator generator = new Generator();
-            generator.nodes = form2.nodes;
-            generator.Main();
+            Form6 form6= new Form6(1);
+            form6.Show();
         }
     }
 }

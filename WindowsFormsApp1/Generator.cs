@@ -50,6 +50,7 @@ namespace WindowsFormsApp1
                 if (item[0] == 'x')
                 {
                     string[] arr = item.Split('(', ')');
+                    if(arr[1]!=null)
                     result.Add("QUEUE " + arr[1] + " ;");
                 }
             transfer(node, result);
@@ -62,33 +63,34 @@ namespace WindowsFormsApp1
             bool flag = false;
             foreach (string item in node.statistic)
             {
-                if (item[0] == 'y')
+                string[] arr = item.Split('(', ')');
+                if (arr[1] != null)
                 {
-                    if (!flag)
+                    if (item[0] == 'y')
                     {
-                        string[] arr = item.Split('(', ')');
-                        result[0] += "DEPART " + arr[1] + " ;";
-                        flag = true;
+                        if (!flag)
+                        {
+                            result[0] += "DEPART " + arr[1] + " ;";
+                            flag = true;
+                        }
+                        else
+                        {
+                            result.Add("DEPART " + arr[1] + " ;");
+                        }
                     }
-                    else
+                    if (item[0] == '#')
                     {
-                        string[] arr = item.Split('(', ')');
-                        result.Add("DEPART " + arr[1] + " ;");
-                    }
-                }
-                if(item[0]=='#')
-                {
-                    string[] arr = item.Split('(', ')');
-                    if (!flag)
-                    {
-                        result[0]+="TABULATE " + arr[1] + " ;";
-                        CreateTable(arr[1]);
-                        flag = true;
-                    }
-                    else
-                    {
-                        result.Add("TABULATE " + arr[1] + " ;");
-                        CreateTable(arr[1]);
+                        if (!flag)
+                        {
+                            result[0] += "TABULATE " + arr[1] + " ;";
+                            CreateTable(arr[1]);
+                            flag = true;
+                        }
+                        else
+                        {
+                            result.Add("TABULATE " + arr[1] + " ;");
+                            CreateTable(arr[1]);
+                        }
                     }
                 }
             }
@@ -104,9 +106,12 @@ namespace WindowsFormsApp1
                 if(item.Contains("Qt"))
                 {
                     string[] arr = item.Split('(', ')');
-                    string[] variable = arr[1].Split(',');
-                    if(variable.Length==5)
-                       _sortList.Add(variable[0] + " QTABLE " + variable[1] + ',' + variable[2] + ',' + variable[3] + ',' + variable[4]+" ;");
+                    if (arr[1] != null)
+                    {
+                        string[] variable = arr[1].Split(',');
+                        if (variable.Length == 5)
+                            _sortList.Add(variable[0] + " QTABLE " + variable[1] + ',' + variable[2] + ',' + variable[3] + ',' + variable[4] + " ;");
+                    }
                 }
         }
         private void before(List<string> result,Node node,out bool flag)
@@ -117,32 +122,35 @@ namespace WindowsFormsApp1
                 string[] arr = item.Split('(', ')');
                 string keyWord=null;
                 bool create = false;
-                if (item.Contains("x0"))
+                if (arr[1] != null)
                 {
-                    keyWord = "QUEUE ";
-                    create = true;
-                }
-                if (item.Contains("y0"))
-                {
-                    keyWord = "DEPART ";
-                    create = true;
-                }
-                if (item.Contains("#0"))
-                {
-                    keyWord = "TABULATE ";
-                    create = true;
-                    CreateTable(arr[1]);
-                }
-                if (create)
-                {
-                    if (!flag)
-                    {                        
-                        result[0] += keyWord + arr[1] + " ;";
-                        flag = true;
+                    if (item.Contains("x0"))
+                    {
+                        keyWord = "QUEUE ";
+                        create = true;
                     }
-                    else
-                        result.Add(keyWord + arr[1] + " ;");
-                    create = false;
+                    if (item.Contains("y0"))
+                    {
+                        keyWord = "DEPART ";
+                        create = true;
+                    }
+                    if (item.Contains("#0"))
+                    {
+                        keyWord = "TABULATE ";
+                        create = true;
+                        CreateTable(arr[1]);
+                    }
+                    if (create)
+                    {
+                        if (!flag)
+                        {
+                            result[0] += keyWord + arr[1] + " ;";
+                            flag = true;
+                        }
+                        else
+                            result.Add(keyWord + arr[1] + " ;");
+                        create = false;
+                    }
                 }
             }
         }
@@ -166,14 +174,17 @@ namespace WindowsFormsApp1
             foreach (string item in node.statistic)
             {
                 string[] arr = item.Split('(', ')');
-                if (item.Contains("x" + x))                    
-                    result.Add("QUEUE " + arr[1] + " ;");
-                if (item.Contains("y" + x))
-                    result.Add("DEPART " + arr[1] + " ;");
-                if (item.Contains("#" + x))
+                if (arr[1] != null)
                 {
-                    result.Add("TABULATE " + arr[1] + " ;");
-                    CreateTable(arr[1]);
+                    if (item.Contains("x" + x))
+                        result.Add("QUEUE " + arr[1] + " ;");
+                    if (item.Contains("y" + x))
+                        result.Add("DEPART " + arr[1] + " ;");
+                    if (item.Contains("#" + x))
+                    {
+                        result.Add("TABULATE " + arr[1] + " ;");
+                        CreateTable(arr[1]);
+                    }
                 }
             }
         }

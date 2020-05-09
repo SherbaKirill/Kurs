@@ -59,5 +59,10 @@ namespace WindowsFormsApp1
                 this.Close();
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form6 form6 = new Form6(5);
+        }
     }
 }
