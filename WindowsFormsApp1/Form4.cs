@@ -12,25 +12,24 @@ namespace WindowsFormsApp1
 {
     public partial class Form4 : Form
     {
-        Form2 form2;
-        public Form4(Form2 form2)
+        List<Node> nodes;
+        public Form4(List<Node>nodes)
         {
-            this.form2 = form2;
+            this.nodes = nodes;
             InitializeComponent();
         }
-        bool continuation = false;
         private void Form4_Load(object sender, EventArgs e)
         {
             dataGridView1.AllowUserToAddRows = true;
             dataGridView1.AllowUserToDeleteRows = true;
-            dataGridView1.RowCount = form2.nodes.Count() + 1;
-            dataGridView1.ColumnCount = form2.nodes.Count();
+            dataGridView1.RowCount = nodes.Count() + 1;
+            dataGridView1.ColumnCount =nodes.Count();
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-                dataGridView1.Columns[i].HeaderCell.Value = form2.nodes[i].name;
-                dataGridView1.Rows[i].HeaderCell.Value = form2.nodes[i].name;
+                dataGridView1.Columns[i].HeaderCell.Value = nodes[i].name;
+                dataGridView1.Rows[i].HeaderCell.Value = nodes[i].name;
             }
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
@@ -54,29 +53,22 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void Form4_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if(!continuation)
-                Application.Exit();
-            this.DialogResult = DialogResult.OK;
-            continuation = false;
-        }
         private void button1_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-                form2.nodes[i].statistic = new List<string>();
+                nodes[i].statistic = new List<string>();
                 for (int j = 0; j < dataGridView1.ColumnCount; j++)
                 {
                     if (dataGridView1.Rows[i].Cells[j].Value!=null&&dataGridView1.Rows[i].Cells[j].Value.ToString() != "-")
                     {
                         string[] item = dataGridView1.Rows[i].Cells[j].Value.ToString().Split('|');
-                        form2.nodes[i].statistic.AddRange(item);
+                        nodes[i].statistic.AddRange(item);
                     }
                 }
             }
             Generator generator = new Generator();
-            generator.nodes = form2.nodes;
+            generator.nodes = nodes;
             List<string> output=generator.Main();
             OpenFileDialog OPF = new OpenFileDialog();
             OPF.Filter = "Файлы txt|*.txt";
@@ -88,12 +80,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            continuation = true;
-            this.Close();
-        }
-
+        
         private void button3_Click(object sender, EventArgs e)
         {
             Form6 form6 = new Form6(4);

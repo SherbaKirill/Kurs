@@ -16,7 +16,6 @@ namespace WindowsFormsApp1
         public List<Node> nodes;
         int numOfElements = 0;
         int countOfElements = 0;
-        bool continuation = false;
         public Form2()
         {
             InitializeComponent();
@@ -100,23 +99,18 @@ namespace WindowsFormsApp1
             }
             if (generator && terminate)
             {
-                continuation = true;
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else MessageBox.Show("Должны быть как минимум один приемник и один генератор", "Error", MessageBoxButtons.OK);
         }
 
-        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (!continuation)
-                Application.Exit();
-            continuation = false;
-        }
-
+        
         private void button3_Click(object sender, EventArgs e)
         {
             Form6 form6 = new Form6(2);
             form6.Show();
         }
+
     }
 }

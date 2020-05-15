@@ -13,17 +13,16 @@ namespace WindowsFormsApp1
   
     public partial class Form3 : Form
     {
-        Form2 form2;
-        bool continuation = false;
-        public Form3(Form2 form2)
+        List<Node> nodes;
+        public Form3(List<Node> nodes)
         {
-            this.form2 = form2;
+            this.nodes = nodes;
             InitializeComponent();
         }
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            foreach (Node node in form2.nodes)
+            foreach (Node node in nodes)
                 if (node.type != 3)
                 {
                     comboBox2.Items.Add(node.name);
@@ -53,14 +52,6 @@ namespace WindowsFormsApp1
                     maskedTextBox3.Visible = false;
                     break;
                 case 2:
-                    label1.Text = "мат.ожид";
-                    label2.Text = "ср.кв.откл";
-                    label3.Visible = false;
-                    maskedTextBox3.Visible = false;
-                    label4.Visible = true;
-                    maskedTextBox5.Visible = true;
-                    break;
-                case 3:
                     label1.Text = "min";
                     label2.Text = "max";
                     label4.Visible = true;
@@ -68,7 +59,7 @@ namespace WindowsFormsApp1
                     label3.Visible = false;
                     maskedTextBox3.Visible = false;
                     break;
-                case 4:
+                case 3:
                     label1.Text = "min";
                     label2.Text = "max";
                     label4.Visible = true;
@@ -82,41 +73,36 @@ namespace WindowsFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
 
-            int item=form2.nodes.FindIndex(x => x.name == this.comboBox2.SelectedItem.ToString());
+            int item=nodes.FindIndex(x => x.name == this.comboBox2.SelectedItem.ToString());
             int law = this.comboBox1.SelectedIndex;
-            if (form2.nodes[item].type == 1)
+            if (nodes[item].type == 1)
             {
                 int result = Convert.ToInt32(maskedTextBox4.Text);
                 if (result < 2)
                     MessageBox.Show("Количество каналов больше 2", "Error", MessageBoxButtons.OK);
-                else form2.nodes[item].countOfChanell = result;
+                else nodes[item].countOfChanell = result;
             }
             if (this.maskedTextBox1.Text != "" && this.maskedTextBox2.Text != "")
                 switch (law)
                 {
                     case 0:
                         if (int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
-                            form2.nodes[item].law = "UNIFORM(" + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                            nodes[item].law = "UNIFORM(" + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
                         else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
                         break;
                     case 1:
                         if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0)
-                            form2.nodes[item].law = "Exponential(" + (this.maskedTextBox5.Text) + ',' + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                            nodes[item].law = "Exponential(" + (this.maskedTextBox5.Text) + ',' + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
                         else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
                         break;
                     case 2:
-                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0)
-                            form2.nodes[item].law = "NORMAL(" + (this.maskedTextBox5.Text) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
+                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0 && int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
+                            nodes[item].law = "DUNIFORM(" + (this.maskedTextBox5.Text) + ',' + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
                         else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
                         break;
                     case 3:
-                        if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0 && int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
-                            form2.nodes[item].law = "DUNIFORM(" + (this.maskedTextBox5.Text) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ')';
-                        else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
-                        break;
-                    case 4:
                         if (this.maskedTextBox5.Text != "" && int.Parse(this.maskedTextBox5.Text) > 0&& int.Parse(this.maskedTextBox1.Text) < int.Parse(this.maskedTextBox2.Text))
-                            form2.nodes[item].law = "TRIANGULAR(" + (this.maskedTextBox5.Text) + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ',' + this.maskedTextBox3.Text + ')';
+                            nodes[item].law = "TRIANGULAR(" + (this.maskedTextBox5.Text) + ',' + this.maskedTextBox1.Text + ',' + this.maskedTextBox2.Text + ',' + this.maskedTextBox3.Text + ')';
                         else MessageBox.Show("Неверный формат", "error", MessageBoxButtons.OK);
                         break;
                 }
@@ -125,31 +111,20 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            continuation = true;
-            this.DialogResult = DialogResult.Cancel;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void Form3_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!continuation)
-                Application.Exit();
-            continuation = false;
             for (int i = comboBox2.Items.Count - 1; i >= 0; i--)
                 comboBox2.Items.RemoveAt(i);
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-            continuation = true;
-            this.Close();
-        }
-
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int item = form2.nodes.FindIndex(x => x.name == this.comboBox2.SelectedItem.ToString());
-            if (form2.nodes[item].type == 1)
+            int item = nodes.FindIndex(x => x.name == this.comboBox2.SelectedItem.ToString());
+            if (nodes[item].type == 1)
             {
                 label5.Visible = true;
                 maskedTextBox4.Visible = true;
